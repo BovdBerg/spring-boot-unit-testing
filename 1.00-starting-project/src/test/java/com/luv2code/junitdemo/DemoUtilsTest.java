@@ -1,11 +1,10 @@
 package com.luv2code.junitdemo;
 
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+@DisplayNameGeneration(DisplayNameGenerator.ReplaceUnderscores.class)
 class DemoUtilsTest {
 
     DemoUtils demoUtils;
@@ -16,16 +15,15 @@ class DemoUtilsTest {
     }
 
     @Test
-    @DisplayName("`add`: assertEquals and assertNotEquals")
-    void testEqualsAndNotEquals() {
+    @DisplayName("Testing `add` method: assertEquals & assertNotEquals")
+    void test_Equals_And_Not_Equals() {
         assertEquals(6, demoUtils.add(2, 4), "2 + 4 should equal 6");
         assertNotEquals(8, demoUtils.add(2, 4), "2 + 4 should not equal 8");
         assertNotEquals(6, demoUtils.add(2, 3), "2 + 3 should not equal 6");
     }
 
     @Test
-    @DisplayName("`checkNull`: assertNull and assertNotNull")
-    void testNullAndNotNull() {
+    void test_Null_And_Not_Null() {
         String str2 = "luv2code";
 
         assertNull(demoUtils.checkNull(null), "Object should be null");
