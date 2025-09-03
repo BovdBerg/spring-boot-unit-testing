@@ -1,6 +1,7 @@
 package com.luv2code.junitdemo;
 
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -15,6 +16,7 @@ class DemoUtilsTest {
     }
 
     @Test
+    @DisplayName("`add`: assertEquals and assertNotEquals")
     void testEqualsAndNotEquals() {
         assertEquals(6, demoUtils.add(2, 4), "2 + 4 should equal 6");
         assertNotEquals(8, demoUtils.add(2, 4), "2 + 4 should not equal 8");
@@ -22,6 +24,7 @@ class DemoUtilsTest {
     }
 
     @Test
+    @DisplayName("`checkNull`: assertNull and assertNotNull")
     void testNullAndNotNull() {
         String str2 = "luv2code";
 
