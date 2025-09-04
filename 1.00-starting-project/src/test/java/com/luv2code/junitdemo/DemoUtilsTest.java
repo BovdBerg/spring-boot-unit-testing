@@ -28,6 +28,15 @@ class DemoUtilsTest {
     }
 
     @Test
+    void Multiply() {
+        assertAll(
+                () -> assertEquals(8, demoUtils.multiply(2, 4), "2 * 4 should equal 8"),
+                () -> assertEquals(0, demoUtils.multiply(2, 0), "2 * 0 should equal 0"),
+                () -> assertEquals(-2, demoUtils.multiply(2, -1), "2 * -1 should equal -2")
+        );
+    }
+
+    @Test
     void Null_and_not_Null() {
         String str2 = "luv2code";
 
