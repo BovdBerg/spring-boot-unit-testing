@@ -13,20 +13,20 @@ class DemoUtilsTest {
     DemoUtils demoUtils;
 
     @BeforeEach
-    void setupBeforeEach() {
+    void beforeEach() {
         demoUtils = new DemoUtils();
     }
 
     @Test
-    @DisplayName("Testing `add` method: assertEquals & assertNotEquals")
-    void test_Equals_And_Not_Equals() {
+    @DisplayName("`add` method: assertEquals & assertNotEquals")
+    void Equals_and_not_Equals() {
         assertEquals(6, demoUtils.add(2, 4), "2 + 4 should equal 6");
         assertNotEquals(8, demoUtils.add(2, 4), "2 + 4 should not equal 8");
         assertNotEquals(6, demoUtils.add(2, 3), "2 + 3 should not equal 6");
     }
 
     @Test
-    void test_Null_And_Not_Null() {
+    void Null_and_not_Null() {
         String str2 = "luv2code";
 
         assertNull(demoUtils.checkNull(null), "Object should be null");
@@ -34,7 +34,7 @@ class DemoUtilsTest {
     }
 
     @Test
-    void test_Same_And_Not_Same() {
+    void Same_and_not_Same() {
         String str = "luv2code";
 
         assertSame(demoUtils.getAcademy(), demoUtils.getAcademyDuplicate(), "Objects should be the same");
@@ -42,7 +42,7 @@ class DemoUtilsTest {
     }
 
     @Test
-    void test_True_And_False() {
+    void True_and_False() {
         int gradeOne = 10;
         int gradeTwo = 5;
 
@@ -51,34 +51,34 @@ class DemoUtilsTest {
     }
 
     @Test
-    void test_Array_Equals() {
+    void Array_Equals() {
         String[] stringArray = {"A", "B", "C"};
 
         assertArrayEquals(stringArray, demoUtils.getFirstThreeLettersOfAlphabet(), "Arrays should be equal");
     }
 
     @Test
-    void test_Iterable_Equals() {
+    void Iterable_Equals() {
         Iterable<String> stringList = List.of("luv", "2", "code");
 
         assertIterableEquals(stringList, demoUtils.getAcademyInList(), "Iterables should be equal");
     }
 
     @Test
-    void test_Line_Match() {
+    void Line_Match() {
         List<String> stringList = List.of("luv", "2", "code");
 
         assertLinesMatch(stringList, demoUtils.getAcademyInList(), "Lines should match");
     }
 
     @Test
-    void test_Throws_or_not() {
+    void Throws_or_not() {
         assertThrows(Exception.class, () -> demoUtils.throwException(-1), "Should throw exception");
         assertDoesNotThrow(() -> demoUtils.throwException(5), "Should not throw exception");
     }
 
     @Test
-    void test_Timeout() {
+    void Timeout() {
         assertTimeoutPreemptively(Duration.ofSeconds(3), () -> demoUtils.checkTimeout(),
                 "Method should execute within 3 seconds");
     }
