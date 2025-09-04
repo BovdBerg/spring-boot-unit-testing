@@ -45,4 +45,14 @@ public class ConditionalTests {
     @EnabledForJreRange(min = JRE.JAVA_11, max = JRE.JAVA_17)
     void testForJava11To17() {
     }
+
+    @Test
+    @EnabledIfEnvironmentVariable(named = "LUV2CODE_ENV", matches = "DEV")
+    void testEnvironmentVariable() {
+    }
+
+    @Test
+    @EnabledIfSystemProperty(named = "LUV2CODE_SYS_PROP", matches = "CI_CD_DEPLOY")
+    void testSystemProperty() {
+    }
 }
