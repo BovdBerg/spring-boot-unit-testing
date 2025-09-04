@@ -29,4 +29,21 @@ class DemoUtilsTest {
         assertNull(demoUtils.checkNull(null), "Object should be null");
         assertNotNull(demoUtils.checkNull(str2), "Object should not be null");
     }
+
+    @Test
+    void test_Same_And_Not_Same() {
+        String str = "luv2code";
+
+        assertSame(demoUtils.getAcademy(), demoUtils.getAcademyDuplicate(), "Objects should be the same");
+        assertNotSame(str, demoUtils.getAcademy(), "Objects should not be the same");
+    }
+
+    @Test
+    void test_True_And_False() {
+        int gradeOne = 10;
+        int gradeTwo = 5;
+
+        assertTrue(demoUtils.isGreater(gradeOne, gradeTwo), "Should return true");
+        assertFalse(demoUtils.isGreater(gradeTwo, gradeOne), "Should return false");
+    }
 }
