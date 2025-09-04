@@ -8,7 +8,7 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 
 @DisplayNameGeneration(DisplayNameGenerator.ReplaceUnderscores.class)
-@TestMethodOrder(MethodOrderer.Random.class)
+@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 class DemoUtilsTest {
 
     DemoUtils demoUtils;
@@ -19,6 +19,7 @@ class DemoUtilsTest {
     }
 
     @Test
+    @Order(-1)
     @DisplayName("`add` method: assertEquals & assertNotEquals")
     void Equals_and_not_Equals() {
         assertEquals(6, demoUtils.add(2, 4), "2 + 4 should equal 6");
@@ -35,6 +36,7 @@ class DemoUtilsTest {
     }
 
     @Test
+    @Order(2)
     void Same_and_not_Same() {
         String str = "luv2code";
 
@@ -52,6 +54,7 @@ class DemoUtilsTest {
     }
 
     @Test
+    @Order(1)
     void Array_Equals() {
         String[] stringArray = {"A", "B", "C"};
 
@@ -59,6 +62,7 @@ class DemoUtilsTest {
     }
 
     @Test
+    @Order(1)
     void Iterable_Equals() {
         Iterable<String> stringList = List.of("luv", "2", "code");
 
@@ -66,6 +70,7 @@ class DemoUtilsTest {
     }
 
     @Test
+    @Order(1)
     void Line_Match() {
         List<String> stringList = List.of("luv", "2", "code");
 
