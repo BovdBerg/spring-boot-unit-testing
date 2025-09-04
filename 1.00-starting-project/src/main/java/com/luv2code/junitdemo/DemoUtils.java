@@ -4,10 +4,9 @@ import java.util.List;
 
 public class DemoUtils {
 
-    private String academy = "Luv2Code Academy";
-    private String academyDuplicate = academy;
-    private String[] firstThreeLettersOfAlphabet = {"A", "B", "C"};
-    private List<String> academyInList = List.of("luv", "2", "code");
+    private final String academy = "Luv2Code Academy";
+    private final String[] firstThreeLettersOfAlphabet = {"A", "B", "C"};
+    private final List<String> academyInList = List.of("luv", "2", "code");
 
     public List<String> getAcademyInList() {
         return academyInList;
@@ -18,7 +17,7 @@ public class DemoUtils {
     }
 
     public String getAcademyDuplicate() {
-        return academyDuplicate;
+        return academy;
     }
 
     public String[] getFirstThreeLettersOfAlphabet() {
@@ -34,17 +33,11 @@ public class DemoUtils {
     }
 
     public Object checkNull(Object obj) {
-        if (obj != null) {
-            return obj;
-        }
-        return null;
+        return obj;
     }
 
     public Boolean isGreater(int n1, int n2) {
-        if (n1 > n2) {
-            return true;
-        }
-        return false;
+        return n1 > n2;
     }
 
     public String throwException(int a) throws Exception {
