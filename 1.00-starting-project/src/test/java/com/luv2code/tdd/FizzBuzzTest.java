@@ -15,6 +15,7 @@ public class FizzBuzzTest {
     // If the number is divisible by both 3 and 5, return "FizzBuzz"
     // If the number is not divisible by either 3 or 5, return the number
 
+    // If the number is divisible by 3, return "Fizz"
     @Test
     @DisplayName("Divisible by 3: Fizz")
     @Order(1)
@@ -22,5 +23,15 @@ public class FizzBuzzTest {
         String expected = "Fizz";
 
         assertEquals(expected, FizzBuzz.compute(3), "3 should return Fizz");
+    }
+
+    // If the number is divisible by 5, return "Buzz"
+    @Test
+    @DisplayName("Divisible by 5: Buzz")
+    @Order(2)
+    void divisibleBy5() {
+        String expected = "Buzz";
+
+        assertEquals(expected, FizzBuzz.compute(5), "5 should return Buzz");
     }
 }
