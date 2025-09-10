@@ -4,12 +4,15 @@ import com.luv2code.component.MvcTestingExampleApplication;
 import com.luv2code.component.models.CollegeStudent;
 import com.luv2code.component.models.StudentGrades;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.List;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest(classes = MvcTestingExampleApplication.class)
 class ApplicationExampleTest {
@@ -46,8 +49,40 @@ class ApplicationExampleTest {
         student.setStudentGrades(studentGrades);
     }
 
+    @DisplayName("Add grade results for student grades")
     @Test
-    void basicTest() {
+    void addGradeResultsForStudentGrades() {
+        assertEquals(353.25, studentGrades.addGradeResultsForSingleClass(
+                student.getStudentGrades().getMathGradeResults()
+        ));
+    }
 
+    @DisplayName("Add grade results for student grades not equal")
+    @Test
+    void addGradeResultsForStudentGradesNotEquals() {
+        assertNotEquals(0, studentGrades.addGradeResultsForSingleClass(
+                student.getStudentGrades().getMathGradeResults()
+        ));
+    }
+
+    @DisplayName("Is grade greater")
+    @Test
+    void isGradeGreaterStudentGrades() {
+        assertTrue(studentGrades.isGradeGreater(90, 75),
+                "failure - should be true");
+    }
+
+    @DisplayName("Is grade greater false")
+    @Test
+    void isGradeGreaterStudentGradesFalse() {
+        assertFalse(studentGrades.isGradeGreater(89, 92),
+                "failure - should be false");
+    }
+
+    @DisplayName("Check null for student grades")
+    @Test
+    void checkNullForStudentGrades() {
+        assertNotNull(studentGrades.checkNull(student.getStudentGrades().getMathGradeResults()),
+                "object should not be null");
     }
 }
