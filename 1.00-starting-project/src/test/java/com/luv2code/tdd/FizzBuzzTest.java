@@ -88,10 +88,11 @@ class FizzBuzzTest {
     }
 
     @ParameterizedTest
-    @CsvFileSource(resources = "/fizzbuzz-test-data.csv", numLinesToSkip = 1)
-    @DisplayName("Parameterized test from CSV file")
+    @CsvFileSource(resources = "/small-test-data.csv", numLinesToSkip = 1)
+    @CsvFileSource(resources = "/medium-test-data.csv")
+    @DisplayName("Parameterized test from CSV files")
     @Order(6)
-    void parameterizedTestFromCsvFile(int input, String expected) {
+    void parameterizedTestFromCsvFiles(int input, String expected) {
         assertEquals(expected, FizzBuzz.compute(input), input + " should return " + expected);
     }
 
