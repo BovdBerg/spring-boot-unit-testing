@@ -5,8 +5,9 @@ import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
 import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.CsvFileSource;
-import org.junit.jupiter.params.provider.CsvSource;
+import org.junit.jupiter.params.provider.*;
+
+import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -67,19 +68,8 @@ class FizzBuzzTest {
     @ParameterizedTest(name = "input={0} --> expected={1}")
     @CsvSource({
             "1, 1",
-            "2, 2",
             "3, Fizz",
-            "4, 4",
             "5, Buzz",
-            "6, Fizz",
-            "7, 7",
-            "8, 8",
-            "9, Fizz",
-            "10, Buzz",
-            "11, 11",
-            "12, Fizz",
-            "13, 13",
-            "14, 14",
             "15, FizzBuzz"
     })
     @DisplayName("Parameterized test from CSV")
@@ -88,11 +78,49 @@ class FizzBuzzTest {
         assertEquals(expected, FizzBuzz.compute(input), input + " should return " + expected);
     }
 
+    public static Stream<Arguments> fizzBuzzTestDataProvider() {
+        return Stream.of(
+                Arguments.of(1, "1"),
+                Arguments.of(3, "Fizz"),
+                Arguments.of(5, "Buzz"),
+                Arguments.of(15, "FizzBuzz")
+        );
+    }
+
     @ParameterizedTest
     @CsvFileSource(resources = "/fizzbuzz-test-data.csv", numLinesToSkip = 1)
     @DisplayName("Parameterized test from CSV file")
-    @Order(7)
+    @Order(6)
     void parameterizedTestFromCsvFile(int input, String expected) {
+        assertEquals(expected, FizzBuzz.compute(input), input + " should return " + expected);
+    }
+
+    //@EnumSource exists too but is not applicable here
+
+    @ParameterizedTest
+    @ValueSource(ints = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15})
+    @DisplayName("Parameterized test from ValueSource")
+    @Order(6)
+    void parameterizedTestFromValueSource(int input) {
+        StringBuilder expected = new StringBuilder();
+        if (input % 3 == 0) {
+            expected.append("Fizz");
+        }
+        if (input % 5 == 0) {
+            expected.append("Buzz");
+        }
+        if (expected.isEmpty()) {
+            expected.append(input);
+        }
+
+        assertEquals(expected.toString(), FizzBuzz.compute(input), input + " should return " + expected);
+    }
+
+    @ParameterizedTest
+    @MethodSource("fizzBuzzTestDataProvider")
+    @DisplayName("Parameterized test from MethodSource")
+    @Order(6)
+    void parameterizedTestFromMethodSource(int input, String expected) {
         assertEquals(expected, FizzBuzz.compute(input), input + " should return " + expected);
     }
 }
