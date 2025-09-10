@@ -69,4 +69,14 @@ class MockAnnotationTest {
         assertEquals(88.31, applicationService.findGradePointAverage(
                 studentOne.getStudentGrades().getMathGradeResults()));
     }
+
+    @DisplayName("Not Null")
+    @Test
+    void testNotNull() {
+        when(applicationDao.checkNull(studentGrades.getMathGradeResults()))
+                .thenReturn(true);
+
+        assertNotNull(applicationService.checkNull(
+                studentOne.getStudentGrades().getMathGradeResults()));
+    }
 }
