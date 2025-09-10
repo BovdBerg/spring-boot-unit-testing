@@ -8,13 +8,19 @@ package com.luv2code.tdd;
  * 4. If the number is not divisible by either 3 or 5, return the number
  */
 public class FizzBuzz {
+    private FizzBuzz() {
+    }
+
     public static String compute(int i) {
         if (i % 3 == 0) {
+            if (i % 5 == 0) {
+                return "FizzBuzz";
+            }
             return "Fizz";
         } else if (i % 5 == 0) {
             return "Buzz";
         }
 
-        return null;
+        return Integer.toString(i);
     }
 }
