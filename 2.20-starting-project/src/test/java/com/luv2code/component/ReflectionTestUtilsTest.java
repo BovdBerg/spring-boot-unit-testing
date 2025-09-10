@@ -37,4 +37,15 @@ class ReflectionTestUtilsTest {
         ReflectionTestUtils.setField(studentOne, "studentGrades",
                 new StudentGrades(List.of(100.0, 85.0, 76.5, 91.75)));
     }
+
+    @Test
+    void getPrivateField() {
+        assertEquals(1, ReflectionTestUtils.getField(studentOne, "id"));
+    }
+
+    @Test
+    void invokePrivateMethod() {
+        assertEquals("Eric 1",
+                ReflectionTestUtils.invokeMethod(studentOne, "getFirstNameAndId"));
+    }
 }
