@@ -59,4 +59,15 @@ public class MockAnnotationTest {
         verify(applicationDao, times(1)).addGradeResultsForSingleClass(
                 studentOne.getStudentGrades().getMathGradeResults());
     }
+
+    @DisplayName("Find GPA")
+    @Test
+    void assertEqualsTestFindGPA() {
+        when(applicationDao.findGradePointAverage(
+                studentOne.getStudentGrades().getMathGradeResults()))
+                .thenReturn(88.31);
+
+        assertEquals(88.31, applicationService.findGradePointAverage(
+                studentOne.getStudentGrades().getMathGradeResults()));
+    }
 }
