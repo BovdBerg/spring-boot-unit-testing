@@ -1,9 +1,6 @@
 package com.luv2code.springmvc;
 
-import com.luv2code.springmvc.models.CollegeStudent;
-import com.luv2code.springmvc.models.HistoryGrade;
-import com.luv2code.springmvc.models.MathGrade;
-import com.luv2code.springmvc.models.ScienceGrade;
+import com.luv2code.springmvc.models.*;
 import com.luv2code.springmvc.repository.HistoryGradesDao;
 import com.luv2code.springmvc.repository.MathGradesDao;
 import com.luv2code.springmvc.repository.ScienceGradesDao;
@@ -192,5 +189,19 @@ class StudentAndGradeServiceTest {
                 "Returns 0 with invalid student id");
         assertEquals(0, studentService.deleteGrade(1, "literature"),
                 "Returns 0 with invalid grade type");
+    }
+
+    @Test
+    void studentInformation() {
+        GradebookCollegeStudent student = studentService.studentInformation(1);
+
+        assertNotNull(student);
+        assertEquals(1, student.getId(), "Student ID should be 1");
+        assertEquals("Eric", student.getFirstname(), "First name should be Eric");
+        assertEquals("Roby", student.getLastname(), "Last name should be Roby");
+        assertEquals("eric.roby@luv2code_school.com", student.getEmailAddress());
+        assertEquals(1, student.getStudentGrades().getMathGradeResults().size());
+        assertEquals(1, student.getStudentGrades().getScienceGradeResults().size());
+        assertEquals(1, student.getStudentGrades().getHistoryGradeResults().size());
     }
 }
