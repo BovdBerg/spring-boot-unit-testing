@@ -12,12 +12,17 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.context.TestPropertySource;
+import org.springframework.test.web.ModelAndViewAssert;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.MvcResult;
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+import org.springframework.web.servlet.ModelAndView;
 
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertIterableEquals;
 import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @TestPropertySource("/application.properties")
 @AutoConfigureMockMvc
@@ -46,7 +51,7 @@ class GradebookControllerTest {
     }
 
     @Test
-    void getStudentsHttpRequest() {
+    void getStudentsHttpRequest() throws Exception {
         CollegeStudent studentOne = new GradebookCollegeStudent("Eric", "Roby", "eric.roby@luv2code_school.com");
         CollegeStudent studentTwo = new GradebookCollegeStudent("Chad", "Darby", "chad.darby@luv2code_school.com");
         List<CollegeStudent> studentsList = List.of(studentOne, studentTwo);
@@ -54,5 +59,14 @@ class GradebookControllerTest {
         when(studentAndGradeServiceMock.getGradeBook()).thenReturn(studentsList);
 
         assertIterableEquals(studentsList, studentAndGradeServiceMock.getGradeBook());
+
+        MvcResult mvcResult = mockMvc.perform(MockMvcRequestBuilders.get("/"))
+                .andExpect(status().isOk())
+                .andReturn();
+
+        ModelAndView mav = mvcResult.getModelAndView();
+
+        assert mav != null;
+        ModelAndViewAssert.assertViewName(mav, "index");
     }
 }
