@@ -33,9 +33,16 @@ public class GradebookController {
 		return "index";
 	}
 
+	@GetMapping("/delete/student/{id}")
+	public String deleteStudent(@PathVariable int id, Model m) {
+		studentAndGradeService.deleteStudent(id);
+		Iterable<CollegeStudent> collegeStudents = studentAndGradeService.getGradeBook();
+		m.addAttribute("students", collegeStudents);
+		return "index";
+	}
+
 	@GetMapping("/studentInformation/{id}")
 		public String studentInformation(@PathVariable int id, Model m) {
 		return "studentInformation";
-		}
-
+	}
 }

@@ -98,12 +98,12 @@ class GradebookControllerTest {
         assertIterableEquals(studentsList, studentCreateServiceMock.getGradeBook());
 
         MvcResult mvcResult = mockMvc.perform(
-                post("/")
-                .contentType(MediaType.APPLICATION_JSON)
-                .param("firstname", request.getParameterValues("firstname"))
-                .param("lastname", request.getParameterValues("lastname"))
-                .param("emailAddress", request.getParameterValues("emailAddress"))
-        )
+                        post("/")
+                                .contentType(MediaType.APPLICATION_JSON)
+                                .param("firstname", request.getParameterValues("firstname"))
+                                .param("lastname", request.getParameterValues("lastname"))
+                                .param("emailAddress", request.getParameterValues("emailAddress"))
+                )
                 .andExpect(status().isOk())
                 .andReturn();
 
@@ -122,7 +122,7 @@ class GradebookControllerTest {
         assertTrue(studentDao.findById(1).isPresent());
 
         MvcResult mvcResult = mockMvc.perform(
-                MockMvcRequestBuilders.get("/delete/student/{id}", 1))
+                        MockMvcRequestBuilders.get("/delete/student/{id}", 1))
                 .andExpect(status().isOk())
                 .andReturn();
 
