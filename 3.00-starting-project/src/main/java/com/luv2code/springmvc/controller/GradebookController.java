@@ -1,7 +1,7 @@
 package com.luv2code.springmvc.controller;
 
 import com.luv2code.springmvc.models.*;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.luv2code.springmvc.service.StudentAndGradeService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -9,12 +9,19 @@ import org.springframework.web.bind.annotation.*;
 @Controller
 public class GradebookController {
 
-	@Autowired
-	private Gradebook gradebook;
+	private final Gradebook gradebook;
 
+	private final StudentAndGradeService studentAndGradeService;
 
-	@RequestMapping(value = "/", method = RequestMethod.GET)
+	public GradebookController(Gradebook gradebook, StudentAndGradeService studentAndGradeService) {
+		this.gradebook = gradebook;
+		this.studentAndGradeService = studentAndGradeService;
+	}
+
+	@GetMapping(value = "/")
 	public String getStudents(Model m) {
+		Iterable<CollegeStudent> collegeStudents = studentAndGradeService.getGradeBook();
+		m.addAttribute("students", collegeStudents);
 		return "index";
 	}
 
