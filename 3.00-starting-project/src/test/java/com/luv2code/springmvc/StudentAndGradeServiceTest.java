@@ -204,4 +204,11 @@ class StudentAndGradeServiceTest {
         assertEquals(1, student.getStudentGrades().getScienceGradeResults().size());
         assertEquals(1, student.getStudentGrades().getHistoryGradeResults().size());
     }
+
+    @Test
+    void studentInformationReturnNull() {
+        GradebookCollegeStudent student = studentService.studentInformation(0);
+
+        assertNull(student);
+    }
 }
