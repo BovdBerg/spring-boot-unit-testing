@@ -8,7 +8,6 @@ import com.luv2code.springmvc.repository.HistoryGradesDao;
 import com.luv2code.springmvc.repository.MathGradesDao;
 import com.luv2code.springmvc.repository.ScienceGradesDao;
 import com.luv2code.springmvc.repository.StudentDao;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -75,24 +74,31 @@ public class StudentAndGradeService {
         }
 
         if (grade >= 0 && grade <= 100) {
-            if (gradeType.equals("math")) {
-                mathGrade.setId(0);
-                mathGrade.setGrade(grade);
-                mathGrade.setStudentId(studentId);
-                mathGradesDao.save(mathGrade);
-                return true;
-            } else if (gradeType.equals("science")) {
-                scienceGrade.setId(0);
-                scienceGrade.setGrade(grade);
-                scienceGrade.setStudentId(studentId);
-                scienceGradesDao.save(scienceGrade);
-                return true;
-            } else if (gradeType.equals("history")) {
-                historyGrade.setId(0);
-                historyGrade.setGrade(grade);
-                historyGrade.setStudentId(studentId);
-                historyGradesDao.save(historyGrade);
-                return true;
+            switch (gradeType) {
+                case "math" -> {
+                    mathGrade.setId(0);
+                    mathGrade.setGrade(grade);
+                    mathGrade.setStudentId(studentId);
+                    mathGradesDao.save(mathGrade);
+                    return true;
+                }
+                case "science" -> {
+                    scienceGrade.setId(0);
+                    scienceGrade.setGrade(grade);
+                    scienceGrade.setStudentId(studentId);
+                    scienceGradesDao.save(scienceGrade);
+                    return true;
+                }
+                case "history" -> {
+                    historyGrade.setId(0);
+                    historyGrade.setGrade(grade);
+                    historyGrade.setStudentId(studentId);
+                    historyGradesDao.save(historyGrade);
+                    return true;
+                }
+                default -> {
+                    return false;
+                }
             }
         }
 
