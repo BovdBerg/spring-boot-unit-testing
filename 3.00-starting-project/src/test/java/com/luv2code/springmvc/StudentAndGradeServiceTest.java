@@ -95,7 +95,7 @@ class StudentAndGradeServiceTest {
     @Test
     void getGradeBookService() {
         Iterable<CollegeStudent> collegeStudents = studentService.getGradeBook();
-        List<CollegeStudent> studentList = new ArrayList <>();
+        List<CollegeStudent> studentList = new ArrayList<>();
 
         for (CollegeStudent student : collegeStudents) {
             studentList.add(student);
@@ -108,7 +108,7 @@ class StudentAndGradeServiceTest {
     @Sql("/insertData.sql")
     void getGradeBookServiceWithSql() {
         Iterable<CollegeStudent> collegeStudents = studentService.getGradeBook();
-        List<CollegeStudent> studentList = new ArrayList <>();
+        List<CollegeStudent> studentList = new ArrayList<>();
 
         for (CollegeStudent student : collegeStudents) {
             studentList.add(student);
@@ -133,5 +133,17 @@ class StudentAndGradeServiceTest {
         assertTrue(mathGrades.iterator().hasNext(), "Student has a math grade");
         assertTrue(scienceGrades.iterator().hasNext(), "Student has a science grade");
         assertTrue(historyGrades.iterator().hasNext(), "Student has a history grade");
+    }
+
+    @Test
+    void createGradeServiceReturnFalse() {
+        assertFalse(studentService.createGrade(105.0, 1, "math"),
+                "Grade is out of range");
+        assertFalse(studentService.createGrade(-5.0, 1, "math"),
+                "Grade is out of range");
+        assertFalse(studentService.createGrade(50.0, 0, "history"),
+                "Invalid student ID");
+        assertFalse(studentService.createGrade(50.0, 1, "literature"),
+                "Invalid grade type");
     }
 }
