@@ -133,4 +133,17 @@ class GradebookControllerTest {
 
         assertFalse(studentDao.findById(1).isPresent());
     }
+
+    @Test
+    void deleteNonExistentStudentHttpRequest() throws Exception {
+        MvcResult mvcResult = mockMvc.perform(
+                        MockMvcRequestBuilders.get("/delete/student/{id}", 0))
+                .andExpect(status().isOk())
+                .andReturn();
+
+        ModelAndView mav = mvcResult.getModelAndView();
+
+        assert mav != null;
+        ModelAndViewAssert.assertViewName(mav, "error");
+    }
 }
