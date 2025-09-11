@@ -1,0 +1,23 @@
+package com.luv2code.springmvc.service;
+
+import com.luv2code.springmvc.models.CollegeStudent;
+import com.luv2code.springmvc.repository.StudentDao;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+@Service
+@Transactional
+public class StudentAndGradeService {
+
+    private final StudentDao studentDao;
+
+    public StudentAndGradeService(StudentDao studentDao) {
+        this.studentDao = studentDao;
+    }
+
+    public void createStudent(String firstName, String lastName, String email) {
+        CollegeStudent student = new CollegeStudent(firstName, lastName, email);
+        student.setId(0);
+        studentDao.save(student);
+    }
+}
