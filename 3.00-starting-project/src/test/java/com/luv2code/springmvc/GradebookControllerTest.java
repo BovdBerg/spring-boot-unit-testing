@@ -103,6 +103,7 @@ class GradebookControllerTest {
 
         ModelAndView mav = mvcResult.getModelAndView();
 
+        assert mav != null;
         ModelAndViewAssert.assertViewName(mav, "index");
 
         CollegeStudent verifyStudent = studentDao.findByEmailAddress("chad.darby@luv2code_school.com");
