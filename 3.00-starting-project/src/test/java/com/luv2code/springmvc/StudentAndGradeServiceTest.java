@@ -173,4 +173,12 @@ class StudentAndGradeServiceTest {
         assertEquals(1, studentService.deleteGrade(1, "history"),
                 "Returns student id after delete");
     }
+
+    @Test
+    void deleteGradeServiceReturnZero() {
+        assertEquals(0, studentService.deleteGrade(0, "math"),
+                "Returns 0 with invalid student id");
+        assertEquals(0, studentService.deleteGrade(1, "literature"),
+                "Returns 0 with invalid grade type");
+    }
 }
