@@ -108,14 +108,37 @@ public class StudentAndGradeService {
     public int deleteGrade(int gradeId, String gradeType) {
         int studentId = 0;
 
-        if (gradeType.equals("math")) {
-            Optional<MathGrade> grade = mathGradesDao.findById(gradeId);
-            if (grade.isEmpty()) {
-                return studentId;
-            }
+        switch (gradeType) {
+            case "math" -> {
+                Optional<MathGrade> grade = mathGradesDao.findById(gradeId);
+                if (grade.isEmpty()) {
+                    return studentId;
+                }
 
-            studentId = grade.get().getStudentId();
-            mathGradesDao.deleteById(gradeId);
+                studentId = grade.get().getStudentId();
+                mathGradesDao.deleteById(gradeId);
+            }
+            case "science" -> {
+                Optional<ScienceGrade> grade = scienceGradesDao.findById(gradeId);
+                if (grade.isEmpty()) {
+                    return studentId;
+                }
+
+                studentId = grade.get().getStudentId();
+                scienceGradesDao.deleteById(gradeId);
+            }
+            case "history" -> {
+                Optional<HistoryGrade> grade = historyGradesDao.findById(gradeId);
+                if (grade.isEmpty()) {
+                    return studentId;
+                }
+
+                studentId = grade.get().getStudentId();
+                historyGradesDao.deleteById(gradeId);
+            }
+            default -> {
+                // do nothing
+            }
         }
 
         return studentId;
