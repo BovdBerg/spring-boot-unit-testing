@@ -25,6 +25,10 @@ public class GradebookController {
 		return "index";
 	}
 
+	@PostMapping("/")
+	public String createStudent(@ModelAttribute("student") CollegeStudent student, Model m) {
+		return "index";
+	}
 
 	@GetMapping("/studentInformation/{id}")
 		public String studentInformation(@PathVariable int id, Model m) {
