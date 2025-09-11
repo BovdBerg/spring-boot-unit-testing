@@ -19,6 +19,7 @@ import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.jdbc.Sql;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
@@ -143,9 +144,12 @@ class StudentAndGradeServiceTest {
         Iterable<HistoryGrade> historyGrades = historyGradesDao.findGradeByStudentId(1);
 
         // Verify grade exists
-        assertTrue(mathGrades.iterator().hasNext(), "Student has a math grade");
-        assertTrue(scienceGrades.iterator().hasNext(), "Student has a science grade");
-        assertTrue(historyGrades.iterator().hasNext(), "Student has a history grade");
+        assertEquals(2, ((Collection<MathGrade>) mathGrades).size(),
+                "Student should have 2 math grades");
+        assertEquals(2, ((Collection<ScienceGrade>) scienceGrades).size(),
+                "Student should have 2 science grades");
+        assertEquals(2, ((Collection<HistoryGrade>) historyGrades).size(),
+                "Student should have 2 history grades");
     }
 
     @Test
