@@ -293,7 +293,7 @@ class GradebookControllerTest {
         assertTrue(mathGrade.isPresent());
 
         MvcResult mvcResult = mockMvc.perform(
-                        MockMvcRequestBuilders.delete("/grades/{id}/{gradeType}", 1, "math"))
+                        MockMvcRequestBuilders.get("/delete/grade/{id}/{gradeType}", 1, "math"))
                 .andExpect(status().isOk())
                 .andReturn();
 
@@ -314,7 +314,7 @@ class GradebookControllerTest {
         assertFalse(mathGrade.isPresent());
 
         MvcResult mvcResult = mockMvc.perform(
-                        MockMvcRequestBuilders.delete("/grades/{id}/{gradeType}", 2, "math"))
+                        MockMvcRequestBuilders.get("/delete/grade/{id}/{gradeType}", 2, "math"))
                 .andExpect(status().isOk())
                 .andReturn();
 
@@ -327,7 +327,7 @@ class GradebookControllerTest {
     @Test
     void deleteGradeForNonExistentGradeType() throws Exception {
         MvcResult mvcResult = mockMvc.perform(
-                        MockMvcRequestBuilders.delete("/grades/{id}/{gradeType}", 1, "literature"))
+                        MockMvcRequestBuilders.get("/delete/grade/{id}/{gradeType}", 1, "literature"))
                 .andExpect(status().isOk())
                 .andReturn();
 
