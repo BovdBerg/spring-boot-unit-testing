@@ -25,6 +25,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
 
 import static org.hamcrest.Matchers.hasSize;
+import static org.hamcrest.Matchers.is;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.http.MediaType.APPLICATION_JSON;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -153,13 +154,14 @@ class GradebookControllerTest {
 
     @Test
     void deleteStudentHttpRequest() throws Exception {
-        assertTrue(studentDao.findById(1).isPresent());
+        int studentId = 1;
+        assertTrue(studentDao.findById(studentId).isPresent());
 
-        mockMvc.perform(delete("/student/{id}", 1))
+        mockMvc.perform(delete("/student/{id}", studentId))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(APPLICATION_JSON))
                 .andExpect(jsonPath("$", hasSize(0)));
 
-        assertFalse(studentDao.findById(1).isPresent());
+        assertFalse(studentDao.findById(studentId).isPresent());
     }
 }
