@@ -2,6 +2,8 @@ package com.luv2code.springmvc;
 
 import com.luv2code.springmvc.models.CollegeStudent;
 import com.luv2code.springmvc.models.GradebookCollegeStudent;
+import com.luv2code.springmvc.models.MathGrade;
+import com.luv2code.springmvc.repository.MathGradesDao;
 import com.luv2code.springmvc.repository.StudentDao;
 import com.luv2code.springmvc.service.StudentAndGradeService;
 import org.junit.jupiter.api.AfterEach;
@@ -21,10 +23,12 @@ import org.springframework.test.web.ModelAndViewAssert;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.when;
@@ -49,6 +53,9 @@ class GradebookControllerTest {
 
     @Autowired
     private StudentAndGradeService studentAndGradeService;
+
+    @Autowired
+    private WebApplicationContext wac;
 
     @Mock
     private StudentAndGradeService studentCreateServiceMock;
@@ -76,6 +83,8 @@ class GradebookControllerTest {
 
     @Value("${sql.script.delete.history.grade}")
     private String sqlDeleteHistoryGrade;
+    @Autowired
+    private MathGradesDao mathGradesDao;
 
     @BeforeAll
     static void setup() {
@@ -275,5 +284,26 @@ class GradebookControllerTest {
 
         assert mav != null;
         ModelAndViewAssert.assertViewName(mav, "error");
+    }
+
+    @Test
+    void deleteValidGrade() throws Exception {
+        Optional<MathGrade> mathGrade = mathGradesDao.findById(1);
+
+        assertTrue(mathGrade.isPresent());
+
+        MvcResult mvcResult = mockMvc.perform(
+                        MockMvcRequestBuilders.delete("/grades/{id}/{gradeType}", 1, "math"))
+                .andExpect(status().isOk())
+                .andReturn();
+
+        ModelAndView mav = mvcResult.getModelAndView();
+
+        assert mav != null;
+        ModelAndViewAssert.assertViewName(mav, "studentInformation");
+
+        mathGrade = mathGradesDao.findById(1);
+
+        assertFalse(mathGrade.isPresent());
     }
 }
