@@ -257,4 +257,22 @@ class GradebookControllerTest {
         assert mav != null;
         ModelAndViewAssert.assertViewName(mav, "error");
     }
+
+    @Test
+    void createGradeForNonExistentGradeTypeHttpRequest() throws Exception {
+        MvcResult mvcResult = mockMvc.perform(
+                        post("/grades")
+                                .contentType(MediaType.APPLICATION_JSON)
+                                .param("grade", "85.0")
+                                .param("gradeType", "literature")
+                                .param("studentId", "1")
+                )
+                .andExpect(status().isOk())
+                .andReturn();
+
+        ModelAndView mav = mvcResult.getModelAndView();
+
+        assert mav != null;
+        ModelAndViewAssert.assertViewName(mav, "error");
+    }
 }
