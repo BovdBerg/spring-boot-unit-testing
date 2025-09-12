@@ -4,7 +4,6 @@ import com.luv2code.springmvc.exceptionhandling.StudentOrGradeErrorResponse;
 import com.luv2code.springmvc.exceptionhandling.StudentOrGradeNotFoundException;
 import com.luv2code.springmvc.models.*;
 import com.luv2code.springmvc.service.StudentAndGradeService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -14,14 +13,17 @@ import java.util.List;
 @RestController
 public class GradebookController {
 
-    @Autowired
-    private StudentAndGradeService studentService;
+    private final StudentAndGradeService studentService;
 
-    @Autowired
     private Gradebook gradebook;
 
+    public GradebookController(StudentAndGradeService studentService, Gradebook gradebook) {
+        this.studentService = studentService;
+        this.gradebook = gradebook;
+    }
 
-    @RequestMapping(value = "/", method = RequestMethod.GET)
+
+    @GetMapping("/")
     public List<GradebookCollegeStudent> getStudents() {
         gradebook = studentService.getGradebook();
         return gradebook.getStudents();
@@ -34,9 +36,8 @@ public class GradebookController {
         if (!studentService.checkIfStudentIsNull(id)) {
             throw new StudentOrGradeNotFoundException("Student or Grade was not found");
         }
-        GradebookCollegeStudent studentEntity = studentService.studentInformation(id);
 
-        return studentEntity;
+        return studentService.studentInformation(id);
     }
 
 
@@ -95,9 +96,7 @@ public class GradebookController {
             throw new StudentOrGradeNotFoundException("Student or Grade was not found");
         }
 
-        GradebookCollegeStudent studentEntity = studentService.studentInformation(studentId);
-
-        return studentEntity;
+        return studentService.studentInformation(studentId);
     }
 
     @ExceptionHandler
