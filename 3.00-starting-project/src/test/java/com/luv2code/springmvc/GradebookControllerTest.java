@@ -24,6 +24,7 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.util.List;
+import java.util.Objects;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.when;
@@ -132,9 +133,9 @@ class GradebookControllerTest {
         MvcResult mvcResult = mockMvc.perform(
                         post("/")
                                 .contentType(MediaType.APPLICATION_JSON)
-                                .param("firstname", request.getParameterValues("firstname"))
-                                .param("lastname", request.getParameterValues("lastname"))
-                                .param("emailAddress", request.getParameterValues("emailAddress"))
+                                .param("firstname", Objects.requireNonNull(request.getParameterValues("firstname")))
+                                .param("lastname", Objects.requireNonNull(request.getParameterValues("lastname")))
+                                .param("emailAddress", Objects.requireNonNull(request.getParameterValues("emailAddress")))
                 )
                 .andExpect(status().isOk())
                 .andReturn();
