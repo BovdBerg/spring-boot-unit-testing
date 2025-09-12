@@ -16,7 +16,6 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.jdbc.SqlConfig;
-import org.springframework.test.context.jdbc.SqlGroup;
 
 import java.util.Optional;
 
@@ -24,7 +23,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 @TestPropertySource("/application-test.properties")
 @SpringBootTest
-public class StudentAndGradeServiceTest {
+class StudentAndGradeServiceTest {
 
     @Autowired
     private JdbcTemplate jdbc;
@@ -70,7 +69,7 @@ public class StudentAndGradeServiceTest {
 
 
     @BeforeEach
-    public void setupDatabase() {
+    void setupDatabase() {
         jdbc.execute(sqlAddStudent);
         jdbc.execute(sqlAddMathGrade);
         jdbc.execute(sqlAddScienceGrade);
@@ -78,7 +77,7 @@ public class StudentAndGradeServiceTest {
     }
 
     @Test
-    public void isStudentNullCheck() {
+    void isStudentNullCheck() {
 
         assertTrue(studentService.checkIfStudentIsNull(1), "@BeforeTransaction creates student : return true");
 
@@ -87,7 +86,7 @@ public class StudentAndGradeServiceTest {
 
 
     @Test
-    public void createStudentService() {
+    void createStudentService() {
 
         studentService.createStudent("Chad", "Darby", "chad.darby@luv2code_school.com");
 
@@ -97,7 +96,7 @@ public class StudentAndGradeServiceTest {
     }
 
     @Test
-    public void deleteStudentService() {
+    void deleteStudentService() {
 
         Optional<CollegeStudent> deletedCollegeStudent = studentDao.findById(1);
         Optional<MathGrade> deletedMathGrade = mathGradeDao.findById(1);
@@ -124,7 +123,7 @@ public class StudentAndGradeServiceTest {
 
 
     @Test
-    public void studentInformationService() {
+    void studentInformationService() {
         GradebookCollegeStudent gradebookCollegeStudentTest = studentService.studentInformation(1);
 
         assertNotNull(gradebookCollegeStudentTest);
@@ -143,8 +142,7 @@ public class StudentAndGradeServiceTest {
     }
 
     @Test
-    public void isGradeNullCheck() {
-
+    void isGradeNullCheck() {
         assertTrue(studentService.checkIfGradeIsNull(1, "math"),
                 "@BeforeTransaction creates student : return true");
 
@@ -162,8 +160,7 @@ public class StudentAndGradeServiceTest {
     }
 
     @Test
-    public void deleteGradeService() {
-
+    void deleteGradeService() {
         assertEquals(1, studentService.deleteGrade(1, "math"),
                 "@BeforeTransaction creates student : return true");
 
@@ -181,8 +178,7 @@ public class StudentAndGradeServiceTest {
     }
 
     @Test
-    public void createGradeService() {
-
+    void createGradeService() {
         studentService.createGrade(80.50, 2, "math");
         studentService.createGrade(80.50, 2, "science");
         studentService.createGrade(80.50, 2, "history");
@@ -203,11 +199,11 @@ public class StudentAndGradeServiceTest {
 
     }
 
-    @SqlGroup({ @Sql(scripts = "/insertData.sql", config = @SqlConfig(commentPrefix = "`")),
-            @Sql("/overrideData.sql"),
-            @Sql("/insertGrade.sql")})
+    @Sql(scripts = "/insertData.sql", config = @SqlConfig(commentPrefix = "`"))
+    @Sql("/overrideData.sql")
+    @Sql("/insertGrade.sql")
     @Test
-    public void getGradebookService() {
+    void getGradebookService() {
 
         Gradebook gradebook = studentService.getGradebook();
 
@@ -220,14 +216,14 @@ public class StudentAndGradeServiceTest {
         }
 
         assertEquals(4, gradebookTest.getStudents().size());
-        assertTrue(gradebookTest.getStudents().get(0).getStudentGrades().getHistoryGradeResults() != null);
-        assertTrue(gradebookTest.getStudents().get(0).getStudentGrades().getScienceGradeResults() != null);
-        assertTrue(gradebookTest.getStudents().get(0).getStudentGrades().getMathGradeResults() != null);
+        assertNotNull(gradebookTest.getStudents().getFirst().getStudentGrades().getHistoryGradeResults());
+        assertNotNull(gradebookTest.getStudents().getFirst().getStudentGrades().getScienceGradeResults());
+        assertNotNull(gradebookTest.getStudents().getFirst().getStudentGrades().getMathGradeResults());
     }
 
 
     @AfterEach
-    public void setupAfterTransaction() {
+    void setupAfterTransaction() {
         jdbc.execute(sqlDeleteStudent);
         jdbc.execute(sqlDeleteMathGrade);
         jdbc.execute(sqlDeleteScienceGrade);
