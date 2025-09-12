@@ -8,6 +8,7 @@ import com.luv2code.springmvc.repository.StudentDao;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.ui.Model;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -178,5 +179,33 @@ public class StudentAndGradeService {
                 student.get().getFirstname(), student.get().getLastname(),
                 student.get().getEmailAddress(),
                 studentGrades);
+    }
+
+    public void configureStudentInformationModel(int studentId, Model m) {
+        GradebookCollegeStudent student = studentInformation(studentId);
+        m.addAttribute("student", student);
+
+        // Add grade averages to the model
+        if (!student.getStudentGrades().getMathGradeResults().isEmpty()) {
+            m.addAttribute("mathAverage", student.getStudentGrades().findGradePointAverage(
+                    student.getStudentGrades().getMathGradeResults())
+            );
+        } else {
+            m.addAttribute("mathAverage", "N/A");
+        }
+        if (!student.getStudentGrades().getScienceGradeResults().isEmpty()) {
+            m.addAttribute("scienceAverage", student.getStudentGrades().findGradePointAverage(
+                    student.getStudentGrades().getScienceGradeResults())
+            );
+        } else {
+            m.addAttribute("scienceAverage", "N/A");
+        }
+        if (!student.getStudentGrades().getHistoryGradeResults().isEmpty()) {
+            m.addAttribute("historyAverage", student.getStudentGrades().findGradePointAverage(
+                    student.getStudentGrades().getHistoryGradeResults())
+            );
+        } else {
+            m.addAttribute("historyAverage", "N/A");
+        }
     }
 }
