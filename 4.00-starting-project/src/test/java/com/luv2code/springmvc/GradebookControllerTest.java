@@ -164,4 +164,15 @@ class GradebookControllerTest {
 
         assertFalse(studentDao.findById(studentId).isPresent());
     }
+
+    @Test
+    void deleteStudentHttpRequestStudentNotFound() throws Exception {
+        int studentId = 0;
+        assertFalse(studentDao.findById(studentId).isPresent());
+
+        mockMvc.perform(delete("/student/{id}", studentId))
+                .andExpect(status().isNotFound())
+                .andExpect(jsonPath("$.status", is(404)))
+                .andExpect(jsonPath("$.message", is("Student or Grade was not found")));
+    }
 }
