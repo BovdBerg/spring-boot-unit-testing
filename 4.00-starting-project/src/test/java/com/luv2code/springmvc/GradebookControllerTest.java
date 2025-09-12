@@ -2,6 +2,7 @@ package com.luv2code.springmvc;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.luv2code.springmvc.models.CollegeStudent;
+import com.luv2code.springmvc.models.MathGrade;
 import com.luv2code.springmvc.repository.HistoryGradesDao;
 import com.luv2code.springmvc.repository.MathGradesDao;
 import com.luv2code.springmvc.repository.ScienceGradesDao;
@@ -23,6 +24,8 @@ import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.Optional;
 
 import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.is;
@@ -241,6 +244,38 @@ class GradebookControllerTest {
                 .param("gradeType", "literature")
                 .param("studentId", "1")
                 )
+                .andExpect(status().isNotFound())
+                .andExpect(jsonPath("$.status", is(404)))
+                .andExpect(jsonPath("$.message", is("Student or Grade was not found")));
+    }
+
+    @Test
+    void deleteGradeHttpRequest() throws Exception {
+        Optional<MathGrade> mathGrade = mathGradeDao.findById(1);
+
+        assertTrue(mathGrade.isPresent());
+
+        mockMvc.perform(delete("/grades/{id}/{gradeType}", 1, "math"))
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(APPLICATION_JSON))
+                .andExpect(jsonPath("$.id", is(1)))
+                .andExpect(jsonPath("$.firstname", is("Eric")))
+                .andExpect(jsonPath("$.lastname", is("Roby")))
+                .andExpect(jsonPath("$.emailAddress", is("eric.roby@luv2code_school.com")))
+                .andExpect(jsonPath("$.studentGrades.mathGradeResults", hasSize(0)));  // Previously 1
+    }
+
+    @Test
+    void deleteGradeHttpRequestStudentNotFound() throws Exception {
+        mockMvc.perform(delete("/grades/{id}/{gradeType}", 2, "math"))
+                .andExpect(status().isNotFound())
+                .andExpect(jsonPath("$.status", is(404)))
+                .andExpect(jsonPath("$.message", is("Student or Grade was not found")));
+    }
+
+    @Test
+    void deleteGradeHttpRequestGradeTypeNotFound() throws Exception {
+        mockMvc.perform(delete("/grades/{id}/{gradeType}", 1, "literature"))
                 .andExpect(status().isNotFound())
                 .andExpect(jsonPath("$.status", is(404)))
                 .andExpect(jsonPath("$.message", is("Student or Grade was not found")));
