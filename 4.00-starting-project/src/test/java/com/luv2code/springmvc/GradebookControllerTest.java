@@ -25,8 +25,10 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
 
 import static org.hamcrest.Matchers.hasSize;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.http.MediaType.APPLICATION_JSON;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @TestPropertySource("classpath:application-test.properties")
@@ -130,5 +132,23 @@ class GradebookControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(APPLICATION_JSON))
                 .andExpect(jsonPath("$", hasSize(2)));
+    }
+
+    @Test
+    void createStudentHttpRequest() throws Exception {
+        String email = "chad.darby@luv2code_school.com";
+        student.setFirstname("Chad");
+        student.setLastname("Darby");
+        student.setEmailAddress(email);
+
+        mockMvc.perform(post("/")
+                .contentType(APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(student)))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$", hasSize(2)));
+
+        student = studentDao.findByEmailAddress(email);
+
+        assertNotNull(student);
     }
 }
