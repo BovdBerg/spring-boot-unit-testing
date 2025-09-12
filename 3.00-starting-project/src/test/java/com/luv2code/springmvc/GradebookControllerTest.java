@@ -323,4 +323,17 @@ class GradebookControllerTest {
         assert mav != null;
         ModelAndViewAssert.assertViewName(mav, "error");
     }
+
+    @Test
+    void deleteGradeForNonExistentGradeType() throws Exception {
+        MvcResult mvcResult = mockMvc.perform(
+                        MockMvcRequestBuilders.delete("/grades/{id}/{gradeType}", 1, "literature"))
+                .andExpect(status().isOk())
+                .andReturn();
+
+        ModelAndView mav = mvcResult.getModelAndView();
+
+        assert mav != null;
+        ModelAndViewAssert.assertViewName(mav, "error");
+    }
 }
