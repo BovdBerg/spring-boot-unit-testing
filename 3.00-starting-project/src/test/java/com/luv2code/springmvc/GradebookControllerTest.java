@@ -236,4 +236,25 @@ class GradebookControllerTest {
 
         assertEquals(2, student.getStudentGrades().getMathGradeResults().size());
     }
+
+    @Test
+    void createGradeForNonExistentStudentHttpRequest() throws Exception {
+        int invStudentId = 0;
+        assertFalse(studentDao.findById(invStudentId).isPresent());
+
+        MvcResult mvcResult = mockMvc.perform(
+                        post("/grades")
+                                .contentType(MediaType.APPLICATION_JSON)
+                                .param("grade", "85.0")
+                                .param("gradeType", "math")
+                                .param("studentId", String.valueOf(invStudentId))
+                )
+                .andExpect(status().isOk())
+                .andReturn();
+
+        ModelAndView mav = mvcResult.getModelAndView();
+
+        assert mav != null;
+        ModelAndViewAssert.assertViewName(mav, "error");
+    }
 }
