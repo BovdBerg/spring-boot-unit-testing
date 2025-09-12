@@ -175,4 +175,29 @@ class GradebookControllerTest {
                 .andExpect(jsonPath("$.status", is(404)))
                 .andExpect(jsonPath("$.message", is("Student or Grade was not found")));
     }
+
+    @Test
+    void studentInformationHttpRequest() throws Exception {
+        int studentId = 1;
+        assertTrue(studentDao.findById(studentId).isPresent());
+
+        mockMvc.perform(get("/studentInformation/{id}", studentId))
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(APPLICATION_JSON))
+                .andExpect(jsonPath("$.id", is(1)))
+                .andExpect(jsonPath("$.firstname", is("Eric")))
+                .andExpect(jsonPath("$.lastname", is("Roby")))
+                .andExpect(jsonPath("$.emailAddress", is("eric.roby@luv2code_school.com")));
+    }
+
+    @Test
+    void studentInformationHttpRequestStudentNotFound() throws Exception {
+        int studentId = 0;
+        assertFalse(studentDao.findById(studentId).isPresent());
+
+        mockMvc.perform(get("/studentInformation/{id}", studentId))
+                .andExpect(status().isNotFound())
+                .andExpect(jsonPath("$.status", is(404)))
+                .andExpect(jsonPath("$.message", is("Student or Grade was not found")));
+    }
 }
