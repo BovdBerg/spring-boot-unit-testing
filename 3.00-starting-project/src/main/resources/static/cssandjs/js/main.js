@@ -30,15 +30,15 @@ function deleteStudent(id) {
 }
 
 function deleteMathGrade(id) {
-    window.location.href = "/delete/grade/" + id + "/" + "math";
+    window.location.href = "/grades/" + id + "/" + "math";
 }
 
 function deleteScienceGrade(id) {
-    window.location.href = "/delete/grade/" + id + "/" + "science";
+    window.location.href = "/grades/" + id + "/" + "science";
 }
 
 function deleteHistoryGrade(id) {
-    window.location.href = "/delete/grade/" + id + "/" + "history";
+    window.location.href = "/grades/" + id + "/" + "history";
 }
 
 function studentInfo(id) {
