@@ -67,13 +67,20 @@ class StudentAndGradeServiceTest {
     @Value("${sql.script.delete.history.grade}")
     private String sqlDeleteHistoryGrade;
 
-
     @BeforeEach
     void setupDatabase() {
         jdbc.execute(sqlAddStudent);
         jdbc.execute(sqlAddMathGrade);
         jdbc.execute(sqlAddScienceGrade);
         jdbc.execute(sqlAddHistoryGrade);
+    }
+
+    @AfterEach
+    void setupAfterTransaction() {
+        jdbc.execute(sqlDeleteStudent);
+        jdbc.execute(sqlDeleteMathGrade);
+        jdbc.execute(sqlDeleteScienceGrade);
+        jdbc.execute(sqlDeleteHistoryGrade);
     }
 
     @Test
@@ -219,14 +226,5 @@ class StudentAndGradeServiceTest {
         assertNotNull(gradebookTest.getStudents().getFirst().getStudentGrades().getHistoryGradeResults());
         assertNotNull(gradebookTest.getStudents().getFirst().getStudentGrades().getScienceGradeResults());
         assertNotNull(gradebookTest.getStudents().getFirst().getStudentGrades().getMathGradeResults());
-    }
-
-
-    @AfterEach
-    void setupAfterTransaction() {
-        jdbc.execute(sqlDeleteStudent);
-        jdbc.execute(sqlDeleteMathGrade);
-        jdbc.execute(sqlDeleteScienceGrade);
-        jdbc.execute(sqlDeleteHistoryGrade);
     }
 }
